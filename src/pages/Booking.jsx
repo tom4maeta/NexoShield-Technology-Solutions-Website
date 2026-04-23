@@ -1,5 +1,5 @@
 // src/pages/Booking.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
@@ -10,14 +10,6 @@ import {
   FaClock,
   FaSpinner,
 } from "react-icons/fa";
-
-// EmailJS Configuration
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID_BOOKING;
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_BOOKING;
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-// Initialize EmailJS
-emailjs.init(EMAILJS_PUBLIC_KEY);
 
 // ==========================
 // ANIMATIONS
@@ -42,6 +34,17 @@ const Booking = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
+
+  // Initialize EmailJS once when component mounts
+  useEffect(() => {
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    if (publicKey) {
+      emailjs.init(publicKey);
+      console.log("EmailJS initialized successfully");
+    } else {
+      console.error("EmailJS Public Key is missing");
+    }
+  }, []);
 
   const services = [
     "Software Development",
@@ -97,20 +100,36 @@ const Booking = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Get environment variables
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID_BOOKING;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_BOOKING;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    // Check if environment variables are available
+    if (!serviceId || !templateId || !publicKey) {
+      console.error("EmailJS configuration missing:", {
+        serviceId: !!serviceId,
+        templateId: !!templateId,
+        publicKey: !!publicKey,
+      });
+      alert("Configuration error. Please contact support.");
+      return;
+    }
+
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    // Honeypot check – if filled, it's a bot
+    // Honeypot check
     if (formData.honeypot) return;
 
     setIsSubmitting(true);
     try {
       const result = await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
+        serviceId,
+        templateId,
         {
           from_name: formData.fullName,
           reply_to: formData.email,
@@ -120,7 +139,7 @@ const Booking = () => {
           preferred_time: formData.preferredTime,
           message: formData.message,
         },
-        EMAILJS_PUBLIC_KEY
+        publicKey
       );
 
       console.log("Booking submitted successfully:", result.text);
@@ -139,11 +158,6 @@ const Booking = () => {
       setTimeout(() => setBookingSuccess(false), 5000);
     } catch (error) {
       console.error("Booking submission failed:", error);
-      console.error("Error details:", {
-        status: error.status,
-        text: error.text,
-        message: error.message
-      });
       alert("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);

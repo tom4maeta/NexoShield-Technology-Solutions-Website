@@ -17,14 +17,6 @@ import {
   FaInstagram,
 } from "react-icons/fa";
 
-// EmailJS Configuration
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-// Initialize EmailJS
-emailjs.init(EMAILJS_PUBLIC_KEY);
-
 // ===========================
 // ANIMATIONS
 // ===========================
@@ -74,12 +66,23 @@ const Contact = () => {
     fullName: "",
     email: "",
     message: "",
-    honeypot: "", // hidden anti-spam field
+    honeypot: "",
   });
 
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Initialize EmailJS once when component mounts
+  useEffect(() => {
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    if (publicKey) {
+      emailjs.init(publicKey);
+      console.log("EmailJS initialized successfully");
+    } else {
+      console.error("EmailJS Public Key is missing");
+    }
+  }, []);
 
   // ===========================
   // VALIDATION
@@ -115,7 +118,6 @@ const Contact = () => {
       [name]: value,
     }));
 
-    // Clear error for this field if any
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -127,36 +129,51 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 1. Validate form fields
+    // Get environment variables
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    // Check if environment variables are available
+    if (!serviceId || !templateId || !publicKey) {
+      console.error("EmailJS configuration missing:", {
+        serviceId: !!serviceId,
+        templateId: !!templateId,
+        publicKey: !!publicKey,
+      });
+      alert("Configuration error. Please contact support.");
+      return;
+    }
+
+    // Validate form fields
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    // 2. Honeypot check – if filled, likely a bot, silently stop
+    // Honeypot check
     if (formData.honeypot) {
       console.log("Spam detected – honeypot filled");
       return;
     }
 
-    // 3. Send via EmailJS
+    // Send via EmailJS
     setIsLoading(true);
     try {
       const result = await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
+        serviceId,
+        templateId,
         {
           from_name: formData.fullName,
           reply_to: formData.email,
           message: formData.message,
         },
-        EMAILJS_PUBLIC_KEY
+        publicKey
       );
 
       console.log("Email sent successfully:", result.text);
 
-      // Success feedback
       setIsSubmitted(true);
       setFormData({
         fullName: "",
@@ -165,15 +182,9 @@ const Contact = () => {
         honeypot: "",
       });
 
-      // Auto-hide success message after 5 seconds
       setTimeout(() => setIsSubmitted(false), 5000);
     } catch (error) {
       console.error("Failed to send message:", error);
-      console.error("Error details:", {
-        status: error.status,
-        text: error.text,
-        message: error.message
-      });
       alert("Oops! Something went wrong. Please try again later.");
     } finally {
       setIsLoading(false);

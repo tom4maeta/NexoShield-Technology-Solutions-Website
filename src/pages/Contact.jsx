@@ -1,5 +1,5 @@
 // src/pages/Contact.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import contact from "../assets/images/contact.jpg";
@@ -17,11 +17,13 @@ import {
   FaInstagram,
 } from "react-icons/fa";
 
-
-// src/pages/Contact.jsx
+// EmailJS Configuration
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID_CONTACT;
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+// Initialize EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 // ===========================
 // ANIMATIONS
@@ -141,7 +143,7 @@ const Contact = () => {
     // 3. Send via EmailJS
     setIsLoading(true);
     try {
-      await emailjs.send(
+      const result = await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
@@ -151,6 +153,8 @@ const Contact = () => {
         },
         EMAILJS_PUBLIC_KEY
       );
+
+      console.log("Email sent successfully:", result.text);
 
       // Success feedback
       setIsSubmitted(true);
@@ -165,6 +169,11 @@ const Contact = () => {
       setTimeout(() => setIsSubmitted(false), 5000);
     } catch (error) {
       console.error("Failed to send message:", error);
+      console.error("Error details:", {
+        status: error.status,
+        text: error.text,
+        message: error.message
+      });
       alert("Oops! Something went wrong. Please try again later.");
     } finally {
       setIsLoading(false);
@@ -200,7 +209,7 @@ const Contact = () => {
             transition={{ delay: 0.2 }}
             className="mt-6 text-blue-100 max-w-xl mx-auto"
           >
-            Have a question or project? Reach out and we’ll respond within 24 hours.
+            Have a question or project? Reach out and we'll respond within 24 hours.
           </motion.p>
         </div>
       </section>
@@ -244,7 +253,7 @@ const Contact = () => {
             {isSubmitted && (
               <div className="mb-6 flex items-center gap-2 bg-green-100 text-green-700 p-4 rounded-lg">
                 <FaCheckCircle />
-                Message sent successfully! We’ll be in touch soon.
+                Message sent successfully! We'll be in touch soon.
               </div>
             )}
 

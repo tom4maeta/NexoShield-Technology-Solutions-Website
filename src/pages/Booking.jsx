@@ -11,11 +11,14 @@ import {
   FaSpinner,
 } from "react-icons/fa";
 
-
-// src/pages/Booking.jsx
+// EmailJS Configuration
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID_BOOKING;
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_BOOKING;
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+// Initialize EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
 // ==========================
 // ANIMATIONS
 // ==========================
@@ -105,7 +108,7 @@ const Booking = () => {
 
     setIsSubmitting(true);
     try {
-      await emailjs.send(
+      const result = await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
@@ -119,6 +122,8 @@ const Booking = () => {
         },
         EMAILJS_PUBLIC_KEY
       );
+
+      console.log("Booking submitted successfully:", result.text);
 
       setBookingSuccess(true);
       setFormData({
@@ -134,6 +139,11 @@ const Booking = () => {
       setTimeout(() => setBookingSuccess(false), 5000);
     } catch (error) {
       console.error("Booking submission failed:", error);
+      console.error("Error details:", {
+        status: error.status,
+        text: error.text,
+        message: error.message
+      });
       alert("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -179,7 +189,7 @@ const Booking = () => {
             transition={{ delay: 0.2 }}
             className="mt-6 text-blue-100 max-w-xl mx-auto"
           >
-            Schedule a consultation or service with our experts. We’ll confirm
+            Schedule a consultation or service with our experts. We'll confirm
             your booking within 24 hours.
           </motion.p>
         </div>
@@ -236,7 +246,7 @@ const Booking = () => {
                     Booking Details
                   </h2>
                   <p className="text-gray-500 mb-8">
-                    Fill out the form below and we’ll handle the rest.
+                    Fill out the form below and we'll handle the rest.
                   </p>
                 </motion.div>
 

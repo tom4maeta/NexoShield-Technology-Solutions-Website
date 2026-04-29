@@ -28,10 +28,10 @@ const COMPANY_LINKS = [
 ];
 
 const SERVICE_LINKS = [
-  { name: "Web Development", path: "/services#web" },
-  { name: "UI/UX Design", path: "/services#web" },
-  { name: "System Integration", path: "/services#software" },
-  { name: "API Development", path: "/services#software" },
+  { name: "Software Development", path: "/services#web" },
+  { name: "Web Design & Development", path: "/services#web" },
+  { name: "IT Support", path: "/services#software" },
+  { name: "Cybersecurity", path: "/services#software" },
 ];
 
 const Footer = () => {
@@ -119,7 +119,7 @@ const Footer = () => {
           <ul className="space-y-4">
             <li className="flex items-start gap-3 text-gray-400 text-sm">
               <FaMapMarkerAlt className="mt-1 text-blue-500 flex-shrink-0" size={16} />
-              <span>123 Tech Avenue, Kilimani, Nairobi, Kenya</span>
+              <span>Arcade-Bulding, Nairobi, Kenya</span>
             </li>
             <li className="flex items-center gap-3 text-gray-400 text-sm">
               <FaPhoneAlt className="text-blue-500 flex-shrink-0" size={14} />
@@ -127,7 +127,7 @@ const Footer = () => {
                 href="tel:+254712345678"
                 className="hover:text-white transition-colors"
               >
-                +254 712 345 678
+                +254 738 552 698
               </a>
             </li>
             <li className="flex items-center gap-3 text-gray-400 text-sm">
@@ -151,13 +151,13 @@ const Footer = () => {
           </p>
           <div className="flex gap-6">
             <Link
-              to="/privacy"
+              to="/#"
               className="hover:text-white transition-colors duration-200"
             >
               Privacy Policy
             </Link>
             <Link
-              to="/terms"
+              to="/#"
               className="hover:text-white transition-colors duration-200"
             >
               Terms of Service

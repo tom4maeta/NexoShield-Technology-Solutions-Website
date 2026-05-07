@@ -78,9 +78,9 @@ const Contact = () => {
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
     if (publicKey) {
       emailjs.init(publicKey);
-      console.log("EmailJS initialized successfully");
+      console.log("Success");
     } else {
-      console.error("EmailJS Public Key is missing");
+      console.error("Failed");
     }
   }, []);
 

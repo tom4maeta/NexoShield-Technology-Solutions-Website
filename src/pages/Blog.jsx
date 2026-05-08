@@ -39,7 +39,7 @@ const BLOG_POSTS = [
     excerpt:
       "Learn the essential design principles that turn casual visitors into loyal users and boost conversion rates.",
     content: "",
-    author: "Grace Wanjiku",
+    author: "Grace Meyson",
     authorRole: "UX Designer",
     authorImage: "https://randomuser.me/api/portraits/women/44.jpg",
     date: "Mar 10, 2025",
@@ -56,7 +56,7 @@ const BLOG_POSTS = [
     excerpt:
       "Cybersecurity threats are evolving. Here's how to protect your software and user data with modern security measures.",
     content: "",
-    author: "David Otieno",
+    author: "David Obara",
     authorRole: "Security Specialist",
     authorImage: "https://randomuser.me/api/portraits/men/55.jpg",
     date: "Mar 5, 2025",
@@ -73,7 +73,7 @@ const BLOG_POSTS = [
     excerpt:
       "How containerization, microservices, and serverless computing can help your business grow without the growing pains.",
     content: "",
-    author: "Michael Johns",
+    author: "Michael Greig",
     authorRole: "Cloud Architect",
     authorImage: "https://randomuser.me/api/portraits/men/79.jpg",
     date: "Feb 28, 2025",
@@ -90,7 +90,7 @@ const BLOG_POSTS = [
     excerpt:
       "From chatbots to predictive analytics, AI is transforming how businesses operate. Here's how to integrate AI into your apps.",
     content: "",
-    author: "Sarah Atieno",
+    author: "Sarah Johns",
     authorRole: "AI Engineer",
     authorImage: "https://randomuser.me/api/portraits/women/63.jpg",
     date: "Feb 20, 2025",
@@ -107,7 +107,7 @@ const BLOG_POSTS = [
     excerpt:
       "A comprehensive guide to designing APIs that are intuitive, scalable, and developer-friendly.",
     content: "",
-    author: "Linda Kamau",
+    author: "Linda Mei",
     authorRole: "Backend Lead",
     authorImage: "https://randomuser.me/api/portraits/women/28.jpg",
     date: "Feb 12, 2025",
@@ -236,14 +236,7 @@ const Blog = () => {
           variants={fadeInUp}
           className="relative max-w-7xl mx-auto px-6 text-center"
         >
-          <motion.span
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="inline-block px-4 py-2 mb-6 text-sm font-semibold text-blue-200 bg-white/10 backdrop-blur-sm rounded-full border border-white/20"
-          >
-            Insights & Resources
-          </motion.span>
+          
 
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight">
             Our{" "}
@@ -270,9 +263,7 @@ const Blog = () => {
               variants={fadeInUp}
               className="mb-10"
             >
-              <span className="text-blue-600 font-semibold tracking-wider uppercase">
-                Editor's Pick
-              </span>
+
               <h2 className="text-3xl font-bold text-gray-900 mt-2">
                 Featured Articles
               </h2>

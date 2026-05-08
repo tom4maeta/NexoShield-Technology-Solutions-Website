@@ -16,7 +16,7 @@ import {
 const TESTIMONIALS = [
   {
     id: 1,
-    name: "James Mwangi",
+    name: "James Cooper",
     role: "CTO",
     company: "FinTech Africa",
     image: "https://randomuser.me/api/portraits/men/32.jpg",
@@ -25,7 +25,7 @@ const TESTIMONIALS = [
   },
   {
     id: 2,
-    name: "Grace Wanjiku",
+    name: "Xiao Mei",
     role: "Founder",
     company: "Beauty Hub",
     image: "https://randomuser.me/api/portraits/women/44.jpg",
@@ -43,7 +43,7 @@ const TESTIMONIALS = [
   },
   {
     id: 4,
-    name: "Sarah Atieno",
+    name: "Sarah Johanese",
     role: "Product Lead",
     company: "EduTech Solutions",
     image: "https://randomuser.me/api/portraits/women/63.jpg",
@@ -52,7 +52,7 @@ const TESTIMONIALS = [
   },
   {
     id: 5,
-    name: "Michael Ochieng",
+    name: "Michael Smith",
     role: "CEO",
     company: "LogiTrack",
     image: "https://randomuser.me/api/portraits/men/79.jpg",
@@ -61,7 +61,7 @@ const TESTIMONIALS = [
   },
   {
     id: 6,
-    name: "Linda Kamau",
+    name: "Linda ",
     role: "Marketing Director",
     company: "Style Avenue",
     image: "https://randomuser.me/api/portraits/women/28.jpg",
@@ -233,9 +233,7 @@ const Testimonials = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-2 mb-4 text-sm font-semibold text-blue-200 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-            Testimonials
-          </span>
+    
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4">
             Trusted by{" "}
             <span className="bg-gradient-to-r from-blue-300 via-white to-indigo-300 bg-clip-text text-transparent">
